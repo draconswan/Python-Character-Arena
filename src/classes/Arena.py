@@ -35,18 +35,18 @@ class Arena:
         else:
             return battleOver
     
-    def makeAttack(self, member1, member2):
-        attackRoll = member1.weaponAttackRoll()
-        if attackRoll >= member2.armor:
-            print("%s's attack hits!")
-            attackDamage = member1.weaponAttackDamage()
-            stillAlive = member2.takeDamage(attackDamage)
-            print("%s takes %d damage." % (member2.name, attackDamage))
+    def makeAttack(self, attacker, defender):
+        attackRoll = attacker.weaponAttackRoll()
+        if attackRoll >= defender.armor:
+            print("%s's attack hits!" % (attacker.name))
+            attackDamage = attacker.weaponAttackDamage()
+            stillAlive = defender.takeDamage(attackDamage)
+            print("%s takes %d damage." % (defender.name, attackDamage))
             if not stillAlive:
-                print("%s is defeated!" % (member2.name))
+                print("%s is defeated!" % (defender.name))
                 return True
             else:
                 return False
         else:
-            print("%s's attack misses")
+            print("%s's attack misses" % (attacker.name))
             return False

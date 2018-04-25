@@ -29,6 +29,12 @@ class Character:
     # Methods needed:
     # get current HP (health - wounds)
     # attack with weapon (roll a d20, add quickness, return result)
+    def weaponAttackRoll(self):
+        pass
     # get weapon damage (roll weapon damage dice, add strength)
+    def weaponAttackDamage(self):
+        pass
     # get list of weapons
     # take damage (add damage to current wounds, return if character is defeated by this damage)
+    def takeDamage(self, attackDamage):
+        pass
