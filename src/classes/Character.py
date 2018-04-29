@@ -4,7 +4,7 @@ Created on Apr 11, 2018
 @author:   Daniel.Swan
 @email:    ds235410@my.stchas.edu
 """
-
+from random import randint
 
 # This class contains all of the information needed to build and use both players and opponents
 class Character:
@@ -25,16 +25,41 @@ class Character:
         self.health = health
         self.wounds = 0
         self.weapons = []
-
+    
+    def __str__(self):
+        return "This is the character:\n  Name: %s\n  Class: %s\n  Strength: %d\n  Quickness: %d\n  Armor: %d\n  Max HP: %d\n  Current HP: %d" \
+            % (self.characterName, self.characterClass, self.strength, self.quickness, self.armor, self.health, self.getCurrentHP())
     # Methods needed:
-    # get current HP (health - wounds)
+    
+    def getCurrentHP(self):
+        currentHP = self.health - self.wounds
+        print(currentHP)
+        return currentHP
+    
     # attack with weapon (roll a d20, add quickness, return result)
     def weaponAttackRoll(self):
-        pass
+        attackRoll = randint(1, 21) + self.quickness
+        print(attackRoll)
+        return attackRoll
+    
     # get weapon damage (roll weapon damage dice, add strength)
     def weaponAttackDamage(self):
-        pass
+        weaponDmg = randint(1, 9) + self.strength
+        print(weaponDmg)
+        return weaponDmg
+    
     # get list of weapons
+    def getWeapons(self):
+        pass
+    
     # take damage (add damage to current wounds, return if character is defeated by this damage)
     def takeDamage(self, attackDamage):
-        pass
+        self.wounds += attackDamage
+        if self.getCurrentHP() <= 0:
+            print("They're dead")
+            return True
+            
+        else:
+            print("They're not dead")
+            return False
+        
