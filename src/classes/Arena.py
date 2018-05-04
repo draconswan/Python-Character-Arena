@@ -12,7 +12,7 @@ class Arena:
         self.player = None
         self.opponent = None
         self.currentRound = 0
-        self.maxRounds = 10
+        self.maxRounds = 1
         
     def __str__(self):
         print("This is the Arena String")
@@ -25,21 +25,26 @@ class Arena:
         self.opponent = opponent
         
     def startBattle(self):
+        battleList = []
         for index in range(1, self.maxRounds + 1):
             print("Round %d, Fight!" % index)
             self.currentRound = index
             battleOver = self.battleRound()
-            if battleOver:
+            battleOverTF = battleOver[0]
+            attackMessage = battleOver[1]
+            isDeadMsg = battleOver[2]
+            if battleOverTF:
             #If one is defeated, next steps
-                print("Someone is dead - take out")
-                return
+                battleList = [index, attackMessage, isDeadMsg]
+                return battleList
     
     def getBattleStatus(self):
         print("Current Round: %d, Player HP: %d, Opponent HP: %d" % (self.currentRound, self.player.getCurrentHP(), self.opponent.getCurrentHP()))
             
     def battleRound(self):
         battleOver = self.makeAttack(self.player, self.opponent)
-        if not battleOver:
+        battleOverTF = battleOver[0]
+        if not battleOverTF:
             print("Battle is not over - take out")
             return self.makeAttack(self.opponent, self.player)
         else:
@@ -49,15 +54,16 @@ class Arena:
     def makeAttack(self, attacker, defender):
         attackRoll = attacker.weaponAttackRoll()
         if attackRoll >= defender.armor:
-            print("%s's attack hits!" % (attacker.characterName))
             attackDamage = attacker.weaponAttackDamage()
             isDead = defender.takeDamage(attackDamage)
-            print("%s takes %d damage." % (defender.characterName, attackDamage))
+            attackMessage = "%s's attack hits!\n%s takes %d damage." % (attacker.characterName, defender.characterName, attackDamage)
             if isDead:
-                print("%s is defeated!" % (defender.characterName))
-                return True
+                isDeadMsg = "%s is defeated!" % (defender.characterName)
+                return (True, attackMessage, isDeadMsg)
             else:
-                return False
+                isDeadMsg = "no one is dead - need to take out?"
+                return (False, attackMessage, isDeadMsg)
         else:
-            print("%s's attack misses" % (attacker.characterName))
-            return False
+            attackMessage = "%s's attack misses" % (attacker.characterName)
+            isDeadMsg = "nothing right now - replace"
+            return (False, attackMessage, isDeadMsg)
