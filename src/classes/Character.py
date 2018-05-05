@@ -16,7 +16,7 @@ class Character:
     # A quickness (the amount added to each attack roll)
     # An armor (the number attacks rolls need to meet or beat to hit)
     # A health score (the amount of damage a character can take before they are defeated)
-    def __init__(self, characterName="", characterClass="", strength=0, quickness=0, armor=0, health=0):
+    def __init__(self, characterName="", characterClass="", strength=0, quickness=0, armor=0, health=0, imageLoc="images/fighter.jpg"):
         self.characterName = characterName
         self.characterClass = characterClass
         self.strength = strength
@@ -24,6 +24,7 @@ class Character:
         self.armor = armor
         self.health = health
         self.wounds = 0
+        self.imageLoc = imageLoc
     
     def __str__(self):
         return "This is the character:\n  Name: %s\n  Class: %s\n  Strength: %d\n  Quickness: %d\n  Armor: %d\n  Max HP: %d\n  Current HP: %d" \

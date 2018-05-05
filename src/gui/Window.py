@@ -11,10 +11,6 @@ from classes.Character import Character
 
 maxSize = 256, 256
 
-root = Tk()
-
-root.geometry("1024x768")
-
 
 class Window(Frame):
 
@@ -39,12 +35,12 @@ class Window(Frame):
         file = Menu(menu, tearoff=0)
         players = Menu(file, tearoff=0)
         players.add_command(label="Create New", command=self.createNewPlayer)
-        for player in self.characters:
-            players.add_command(label=player.characterClass, command=partial(self.addPlayer, player))
+        for key in self.characters:
+            players.add_command(label=key, command=partial(self.addPlayer, self.characters[key]))
         file.add_cascade(label="Add Player", menu=players)
         opponents = Menu(file, tearoff=0)
-        for opponent in self.opponents:
-            opponents.add_command(label=opponent.characterClass, command=partial(self.addOpponent, opponent))
+        for key in self.opponents:
+            opponents.add_command(label=key, command=partial(self.addOpponent, self.opponents[key]))
         # opponents.add_command(label="Ogre", command=partial(self.addOpponent, "ogre"))
         # opponents.add_command(label="Giant", command=partial(self.addOpponent, "giant"))
         file.add_cascade(label="Add Opponent", menu=opponents)
@@ -159,7 +155,7 @@ class Window(Frame):
         startingY += 20
 
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     fighter = Character()
     fighter.characterName = "Gladstone Wolfsbane"
     fighter.characterClass = "Fighter"
@@ -175,6 +171,9 @@ if __name__ == "__main__":
     goblin.quickness = 6
     goblin.armor = 14
     goblin.health = 30
-
+    
+    root = Tk()
+    root.geometry("1024x768")
     app = Window([fighter], [goblin], root)
     root.mainloop()
+'''
