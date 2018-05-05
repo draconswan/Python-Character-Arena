@@ -6,7 +6,6 @@ Created on Apr 29, 2018
 
 from classes.Arena import Arena
 from classes.Character import Character
-from classes.weapons import weapon
 
 def main():
     #Need to make this a loop around whole game
@@ -21,7 +20,7 @@ def main():
 def buildArena():
     #ask player to select a character
         #ask player to select weapon
-    playerOne = Character("Character","Fighter", 5, 5, 5, 50)
+    playerOne = Character("Character","Fighter", 5, 5, 18, 20)
     
     #ask player to select an opponent
     playerTwo = Character("Opponent", "Fighter", 5, 5, 5, 100)

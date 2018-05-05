@@ -24,7 +24,6 @@ class Character:
         self.armor = armor
         self.health = health
         self.wounds = 0
-        self.weapons = []
     
     def __str__(self):
         return "This is the character:\n  Name: %s\n  Class: %s\n  Strength: %d\n  Quickness: %d\n  Armor: %d\n  Max HP: %d\n  Current HP: %d" \
@@ -33,33 +32,29 @@ class Character:
     
     def getCurrentHP(self):
         currentHP = self.health - self.wounds
-        print("This is the current HP: %d" % currentHP)
+        print("    This is %s's current HP: %d" % (self.characterName, currentHP))
         return currentHP
     
     # attack with weapon (roll a d20, add quickness, return result)
-    def weaponAttackRoll(self):
+    def attackRoll(self):
         attackRoll = randint(1, 21) + self.quickness
-        print("This is the current attackRoll: %d" % attackRoll)
+        print("    This is %s's current attackRoll: %d" % (self.characterName, attackRoll))
         return attackRoll
     
     # get weapon damage (roll weapon damage dice, add strength)
-    def weaponAttackDamage(self):
-        weaponDmg = randint(1, 9) + self.strength
-        print("This is the weapon's damage: %d" % weaponDmg)
-        return weaponDmg
-    
-    # get list of weapons
-    def getWeapons(self):
-        pass
+    def attackDamage(self):
+        damage = randint(1, 9) + self.strength
+        print("    This is the damage of %s's attack: %d" % (self.characterName, damage))
+        return damage
     
     # take damage (add damage to current wounds, return if character is defeated by this damage)
     def takeDamage(self, attackDamage):
         self.wounds += attackDamage
         if self.getCurrentHP() <= 0:
-            print("They're dead - take out")
+            print("%s is dead - take out" % self.characterName)
             return True
             
         else:
-            print("They're not dead - take out")
+            print("%s is not dead - take out" % self.characterName)
             return False
         
