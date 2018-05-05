@@ -47,7 +47,7 @@ class Window(Frame):
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
 
-    def addPlayerImage(self, characterName, imageLoc):
+    def addPlayerImage(self, imageLoc):
         #imagePath = "images/" + characterName + ".jpg"
         if os.path.exists(imageLoc):
             character = Image.open(imageLoc)
@@ -64,7 +64,7 @@ class Window(Frame):
         img.place(x=xCoord, y=yCoord)
         pass
 
-    def addOpponentImage(self, opponentName, imageLoc):
+    def addOpponentImage(self, imageLoc):
         #imagePath = "images/" + opponentName + ".jpg"
         if os.path.exists(imageLoc):
             opponent = Image.open(imageLoc)
@@ -93,7 +93,7 @@ class Window(Frame):
         CharacterWindow(self, secondWindow)
 
     def addPlayer(self, character):
-        self.addPlayerImage(character.characterName, character.imageLoc)
+        self.addPlayerImage(character.imageLoc)
 
         x1 = 0
         x2 = 125
@@ -124,7 +124,7 @@ class Window(Frame):
         startingY += 20
 
     def addOpponent(self, opponent):
-        self.addOpponentImage(opponent.characterName, opponent.imageLoc)
+        self.addOpponentImage(opponent.imageLoc)
 
         x1 = 768
         x2 = 896
