@@ -10,7 +10,6 @@ from tkinter import *
 import csv
 
 
-
 def main():
     opponents = {}
     players = {}
@@ -19,13 +18,13 @@ def main():
         opponentList = csv.reader(opponentsFile, delimiter = ",")
         
         for row in opponentList:
-            opponent = Character(row[0], row[1], row[2], row[3], row[4])
+            opponent = Character(row[0], row[1], row[2], row[3], row[4], row[5])
             opponents[row[1]] = opponent
 
     with open('players.csv', 'r') as playersFile:
         playersList = csv.reader(playersFile, delimiter = ",")
         for row in playersList:
-            player = Character(row[0], row[1], row[2], row[3], row[4])
+            player = Character(row[0], row[1], row[2], row[3], row[4], row[5])
             players[row[1]] = player
     
     opponentsFile.close()
@@ -66,8 +65,7 @@ def buildArena():
 
 def endGame():
     #display game summary; loop to new game choice
-    opponents.close()
-    players.close()
+    pass
 
 main()
     

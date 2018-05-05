@@ -47,12 +47,12 @@ class Window(Frame):
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
 
-    def addPlayerImage(self, characterName):
-        imagePath = "images/" + characterName + ".jpg"
-        if os.path.exists(imagePath):
-            character = Image.open(imagePath)
+    def addPlayerImage(self, characterName, imageLoc):
+        #imagePath = "images/" + characterName + ".jpg"
+        if os.path.exists(imageLoc):
+            character = Image.open(imageLoc)
         else:
-            character = Image.open("images/fighter.jpg")
+            character = Image.open("gui/images/fighter.jpg")
 
         character.thumbnail(maxSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(character)
@@ -64,12 +64,12 @@ class Window(Frame):
         img.place(x=xCoord, y=yCoord)
         pass
 
-    def addOpponentImage(self, opponentName):
-        imagePath = "images/" + opponentName + ".jpg"
-        if os.path.exists(imagePath):
-            opponent = Image.open(imagePath)
+    def addOpponentImage(self, opponentName, imageLoc):
+        #imagePath = "images/" + opponentName + ".jpg"
+        if os.path.exists(imageLoc):
+            opponent = Image.open(imageLoc)
         else:
-            opponent = Image.open("images/goblin.jpg")
+            opponent = Image.open("gui/images/goblin.jpg")
 
         opponent.thumbnail(maxSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(opponent)
@@ -89,11 +89,11 @@ class Window(Frame):
         exit()
 
     def createNewPlayer(self):
-        secondWindow = Toplevel(root)
+        secondWindow = Toplevel(self.master)
         CharacterWindow(self, secondWindow)
 
     def addPlayer(self, character):
-        self.addPlayerImage(character.characterName)
+        self.addPlayerImage(character.characterName, character.imageLoc)
 
         x1 = 0
         x2 = 125
@@ -124,7 +124,7 @@ class Window(Frame):
         startingY += 20
 
     def addOpponent(self, opponent):
-        self.addOpponentImage(opponent.characterName)
+        self.addOpponentImage(opponent.characterName, opponent.imageLoc)
 
         x1 = 768
         x2 = 896
@@ -153,27 +153,3 @@ class Window(Frame):
         armorLabel = Label(self, text="Armor").place(x=x1, y=startingY)
         armorValue = Label(self, text=opponent.armor).place(x=x2, y=startingY)
         startingY += 20
-
-
-'''if __name__ == "__main__":
-    fighter = Character()
-    fighter.characterName = "Gladstone Wolfsbane"
-    fighter.characterClass = "Fighter"
-    fighter.strength = 6
-    fighter.quickness = 4
-    fighter.armor = 20
-    fighter.health = 40
-
-    goblin = Character()
-    goblin.characterName = "Wormtooth"
-    goblin.characterClass = "Goblin Warrior"
-    goblin.strength = 4
-    goblin.quickness = 6
-    goblin.armor = 14
-    goblin.health = 30
-    
-    root = Tk()
-    root.geometry("1024x768")
-    app = Window([fighter], [goblin], root)
-    root.mainloop()
-'''
