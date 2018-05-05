@@ -41,33 +41,33 @@ class Window(Frame):
         menu.add_cascade(label="File", menu=file)
     
     def addPlayerImage(self, characterName):
-#         imagePath = "images/" + characterName + ".jpg"
-#         if os.path.exists(imagePath):
-#             character = Image.open(imagePath)
-#         else:
-#             character = Image.open("images/default.jpg")
-#         
-#         character.thumbnail(maxSize, Image.ANTIALIAS)
-#         render = ImageTk.PhotoImage(character)
-#         
-#         img = Label(self, image=render)
-#         img.image = render
-#         img.place(x=0, y=0)
+        imagePath = "images/" + characterName + ".jpg"
+        if os.path.exists(imagePath):
+            character = Image.open(imagePath)
+        else:
+            character = Image.open("images/default.jpg")
+        
+        character.thumbnail(maxSize, Image.ANTIALIAS)
+        render = ImageTk.PhotoImage(character)
+        
+        img = Label(self, image=render)
+        img.image = render
+        img.place(x=0, y=0)
         pass
     
     def addOpponentImage(self, opponentName):
-#         imagePath = "images/" + opponentName + ".jpg"
-#         if os.path.exists(imagePath):
-#             opponent = Image.open(imagePath)
-#         else:
-#             opponent = Image.open("images/default.jpg")
-#         
-#         opponent.thumbnail(maxSize, Image.ANTIALIAS)
-#         render = ImageTk.PhotoImage(opponent)
-#         
-#         img = Label(self, image=render)
-#         img.image = render
-#         img.place(x=(1024 - opponent.size[0]), y=0)
+        imagePath = "images/" + opponentName + ".jpg"
+        if os.path.exists(imagePath):
+            opponent = Image.open(imagePath)
+        else:
+            opponent = Image.open("images/default.jpg")
+        
+        opponent.thumbnail(maxSize, Image.ANTIALIAS)
+        render = ImageTk.PhotoImage(opponent)
+        
+        img = Label(self, image=render)
+        img.image = render
+        img.place(x=(1024 - opponent.size[0]), y=0)
         pass
     
     def showText(self):
