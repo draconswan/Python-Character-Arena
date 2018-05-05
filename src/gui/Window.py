@@ -30,7 +30,7 @@ class Window(Frame):
         self.master.title("Character Battle Arena")
         self.pack(fill=BOTH, expand=1)
         self.buildMenu()
-        self.showText()
+        self.setBattleSection()
 
     def buildMenu(self):
         menu = Menu(self.master)
@@ -85,9 +85,9 @@ class Window(Frame):
         img.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
         pass
 
-    def showText(self):
-        text = Label(self, text="Character Battle Arena")
-        text.pack()
+    def setBattleSection(self):
+        Label(self, text="Character Battle Arena").pack()
+        Button(self, text="").pack()
 
     def clientExit(self):
         exit()
@@ -159,21 +159,22 @@ class Window(Frame):
         startingY += 20
 
 
-fighter = Character()
-fighter.characterName = "Gladstone Wolfsbane"
-fighter.characterClass = "Fighter"
-fighter.strength = 6
-fighter.quickness = 4
-fighter.armor = 20
-fighter.health = 40
+if __name__ == "__main__":
+    fighter = Character()
+    fighter.characterName = "Gladstone Wolfsbane"
+    fighter.characterClass = "Fighter"
+    fighter.strength = 6
+    fighter.quickness = 4
+    fighter.armor = 20
+    fighter.health = 40
 
-goblin = Character()
-goblin.characterName = "Wormtooth"
-goblin.characterClass = "Goblin Warrior"
-goblin.strength = 4
-goblin.quickness = 6
-goblin.armor = 14
-goblin.health = 30
+    goblin = Character()
+    goblin.characterName = "Wormtooth"
+    goblin.characterClass = "Goblin Warrior"
+    goblin.strength = 4
+    goblin.quickness = 6
+    goblin.armor = 14
+    goblin.health = 30
 
-app = Window([fighter], [goblin], root)
-root.mainloop()
+    app = Window([fighter], [goblin], root)
+    root.mainloop()
