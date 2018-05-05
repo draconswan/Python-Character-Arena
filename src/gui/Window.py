@@ -2,20 +2,49 @@
 
 """
 import os
-from tkinter import *
 from functools import partial
-from PIL import Image, ImageTk
-from gui.CharacterWindow import CharacterWindow
-from classes.Arena import Arena
-from classes.Character import Character
+from tkinter import *
 
-maxSize = 256, 256
+from PIL import Image, ImageTk
+
+from classes.Arena import Arena
+from gui.CharacterWindow import CharacterWindow
+
+maxImageSize = 256, 256
 
 
 class Window(Frame):
 
     def __init__(self, characters, opponents, master=None):
         Frame.__init__(self, master)
+        # Setting up player section
+        self.armorLabelPlayer = Label(self, text="Armor")
+        self.armorValuePlayer = Label(self, text="")
+        self.healthLabelPlayer = Label(self, text="Health")
+        self.healthValuePlayer = Label(self, text="")
+        self.quicknessLabelPlayer = Label(self, text="Quickness")
+        self.quicknessValuePlayer = Label(self, text="")
+        self.strengthLabelPlayer = Label(self, text="Strength")
+        self.strengthValuePlayer = Label(self, text="")
+        self.classNameLabelPlayer = Label(self, text="Class")
+        self.classNameValuePlayer = Label(self, text="")
+        self.nameLabelPlayer = Label(self, text="Name")
+        self.nameValuePlayer = Label(self, text="")
+
+        # Setting up Opponent Section
+        self.armorLabelOpponent = Label(self, text="Armor")
+        self.armorValueOpponent = Label(self, text="")
+        self.healthLabelOpponent = Label(self, text="Health")
+        self.healthValueOpponent = Label(self, text="")
+        self.quicknessLabelOpponent = Label(self, text="Quickness")
+        self.quicknessValueOpponent = Label(self, text="")
+        self.strengthLabelOpponent = Label(self, text="Strength")
+        self.strengthValueOpponent = Label(self, text="")
+        self.classNameLabelOpponent = Label(self, text="Class")
+        self.classNameValueOpponent = Label(self, text="")
+        self.nameLabelOpponent = Label(self, text="Name")
+        self.nameValueOpponent = Label(self, text="")
+
         self.master = master
         self.characters = characters
         self.opponents = opponents
@@ -27,6 +56,47 @@ class Window(Frame):
         self.pack(fill=BOTH, expand=1)
         self.buildMenu()
         self.setBattleSection()
+        x1 = 0
+        x2 = 125
+        x3 = 768
+        x4 = 896
+        startingY = 266
+
+        self.nameLabelPlayer.place(x=x1, y=startingY)
+        self.nameValuePlayer.place(x=x2, y=startingY)
+        self.nameLabelOpponent.place(x=x3, y=startingY)
+        self.nameValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
+
+        self.classNameLabelPlayer.place(x=x1, y=startingY)
+        self.classNameValuePlayer.place(x=x2, y=startingY)
+        self.classNameLabelOpponent.place(x=x3, y=startingY)
+        self.classNameValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
+
+        self.strengthLabelPlayer.place(x=x1, y=startingY)
+        self.strengthValuePlayer.place(x=x2, y=startingY)
+        self.strengthLabelOpponent.place(x=x3, y=startingY)
+        self.strengthValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
+
+        self.quicknessLabelPlayer.place(x=x1, y=startingY)
+        self.quicknessValuePlayer.place(x=x2, y=startingY)
+        self.quicknessLabelOpponent.place(x=x3, y=startingY)
+        self.quicknessValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
+
+        self.healthLabelPlayer.place(x=x1, y=startingY)
+        self.healthValuePlayer.place(x=x2, y=startingY)
+        self.healthLabelOpponent.place(x=x3, y=startingY)
+        self.healthValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
+
+        self.armorLabelPlayer.place(x=x1, y=startingY)
+        self.armorValuePlayer.place(x=x2, y=startingY)
+        self.armorLabelOpponent.place(x=x3, y=startingY)
+        self.armorValueOpponent.place(x=x4, y=startingY)
+        startingY += 20
 
     def buildMenu(self):
         menu = Menu(self.master)
@@ -48,13 +118,13 @@ class Window(Frame):
         menu.add_cascade(label="File", menu=file)
 
     def addPlayerImage(self, characterName, imageLoc):
-        #imagePath = "images/" + characterName + ".jpg"
+        # imagePath = "images/" + characterName + ".jpg"
         if os.path.exists(imageLoc):
             character = Image.open(imageLoc)
         else:
             character = Image.open("gui/images/fighter.jpg")
 
-        character.thumbnail(maxSize, Image.ANTIALIAS)
+        character.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(character)
 
         img = Label(self, image=render, bg="blue")
@@ -65,13 +135,13 @@ class Window(Frame):
         pass
 
     def addOpponentImage(self, opponentName, imageLoc):
-        #imagePath = "images/" + opponentName + ".jpg"
+        # imagePath = "images/" + opponentName + ".jpg"
         if os.path.exists(imageLoc):
             opponent = Image.open(imageLoc)
         else:
             opponent = Image.open("gui/images/goblin.jpg")
 
-        opponent.thumbnail(maxSize, Image.ANTIALIAS)
+        opponent.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(opponent)
 
         img = Label(self, image=render, bg="red")
@@ -83,10 +153,17 @@ class Window(Frame):
 
     def setBattleSection(self):
         Label(self, text="Character Battle Arena").pack()
-        Button(self, text="").pack()
+        Button(self, text="Start Battle", command=self.startBattle).pack()
 
     def clientExit(self):
         exit()
+
+    def startBattle(self):
+        if self.arena.isReady:
+            pass
+        else:
+            messagebox.showinfo("Warning",
+                                "Please make sure there are 2 participants in the arena before starting the battle")
 
     def createNewPlayer(self):
         secondWindow = Toplevel(self.master)
@@ -94,62 +171,12 @@ class Window(Frame):
 
     def addPlayer(self, character):
         self.addPlayerImage(character.characterName, character.imageLoc)
-
-        x1 = 0
-        x2 = 125
-        startingY = 266
-
-        nameLabel = Label(self, text="Character Name").place(x=x1, y=startingY)
-        nameValue = Label(self, text=character.characterName).place(x=x2, y=startingY)
-        startingY += 20
-
-        classNameLabel = Label(self, text="Character Class").place(x=x1, y=startingY)
-        classNameValue = Label(self, text=character.characterClass).place(x=x2, y=startingY)
-        startingY += 20
-
-        strengthLabel = Label(self, text="Strength").place(x=x1, y=startingY)
-        strengthValue = Label(self, text=character.strength).place(x=x2, y=startingY)
-        startingY += 20
-
-        quicknessLabel = Label(self, text="Quickness").place(x=x1, y=startingY)
-        quicknessValue = Label(self, text=character.quickness).place(x=x2, y=startingY)
-        startingY += 20
-
-        healthLabel = Label(self, text="Health").place(x=x1, y=startingY)
-        healthValue = Label(self, text=character.health).place(x=x2, y=startingY)
-        startingY += 20
-
-        armorLabel = Label(self, text="Armor").place(x=x1, y=startingY)
-        armorValue = Label(self, text=character.armor).place(x=x2, y=startingY)
-        startingY += 20
+        self.nameValuePlayer['text'] = character.characterName
+        self.classNameValuePlayer['text'] = character.characterClass
+        self.strengthValuePlayer['text'] = character.strength
+        self.quicknessValuePlayer['text'] = character.quickness
+        self.healthValuePlayer['text'] = character.health
+        self.armorValuePlayer['text'] = character.armor
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.characterName, opponent.imageLoc)
-
-        x1 = 768
-        x2 = 896
-        startingY = 266
-
-        nameLabel = Label(self, text="Name").place(x=x1, y=startingY)
-        nameValue = Label(self, text=opponent.characterName).place(x=x2, y=startingY)
-        startingY += 20
-
-        classNameLabel = Label(self, text="Class").place(x=x1, y=startingY)
-        classNameValue = Label(self, text=opponent.characterClass).place(x=x2, y=startingY)
-        startingY += 20
-
-        strengthLabel = Label(self, text="Strength").place(x=x1, y=startingY)
-        strengthValue = Label(self, text=opponent.strength).place(x=x2, y=startingY)
-        startingY += 20
-
-        quicknessLabel = Label(self, text="Quickness").place(x=x1, y=startingY)
-        quicknessValue = Label(self, text=opponent.quickness).place(x=x2, y=startingY)
-        startingY += 20
-
-        healthLabel = Label(self, text="Health").place(x=x1, y=startingY)
-        healthValue = Label(self, text=opponent.health).place(x=x2, y=startingY)
-        startingY += 20
-
-        armorLabel = Label(self, text="Armor").place(x=x1, y=startingY)
-        armorValue = Label(self, text=opponent.armor).place(x=x2, y=startingY)
-        startingY += 20
