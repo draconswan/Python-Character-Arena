@@ -6,15 +6,24 @@ from tkinter import *
 from functools import partial
 from PIL import Image, ImageTk
 from gui.CharacterWindow import CharacterWindow
+from classes.Arena import Arena
+from classes.Character import Character
 
 maxSize = 256, 256
+
+root = Tk()
+
+root.geometry("1024x768")
 
 
 class Window(Frame):
 
-    def __init__(self, master=None):
+    def __init__(self, characters, opponents, master=None):
         Frame.__init__(self, master)
         self.master = master
+        self.characters = characters
+        self.opponents = opponents
+        self.arena = Arena()
         self.init_window()
 
     def init_window(self):
@@ -22,111 +31,145 @@ class Window(Frame):
         self.pack(fill=BOTH, expand=1)
         self.buildMenu()
         self.showText()
-    
+
     def buildMenu(self):
         menu = Menu(self.master)
         self.master.config(menu=menu)
-        
-        file = Menu(menu)
-        players = Menu(file)
+
+        file = Menu(menu, tearoff=0)
+        players = Menu(file, tearoff=0)
         players.add_command(label="Create New", command=self.createNewPlayer)
-        players.add_command(label="Fighter", command=partial(self.addPlayer, "fighter"))
+        fighter = Character()
+        fighter.characterName = "Gladstone Wolfsbane"
+        fighter.characterClass = "Fighter"
+        fighter.strength = 6
+        fighter.quickness = 4
+        fighter.armor = 20
+        fighter.health = 40
+        players.add_command(label="Fighter", command=partial(self.addPlayer, fighter))
         file.add_cascade(label="Add Player", menu=players)
-        opponents = Menu(file)
-        opponents.add_command(label="Goblin", command=partial(self.addOpponent, "goblin"))
-        opponents.add_command(label="Ogre", command=partial(self.addOpponent, "ogre"))
-        opponents.add_command(label="Giant", command=partial(self.addOpponent, "giant"))
+        opponents = Menu(file, tearoff=0)
+        goblin = Character()
+        goblin.characterName = "Wormtooth"
+        goblin.characterClass = "Warrior"
+        goblin.strength = 4
+        goblin.quickness = 6
+        goblin.armor = 14
+        goblin.health = 30
+        opponents.add_command(label="Goblin", command=partial(self.addOpponent, goblin))
+        # opponents.add_command(label="Ogre", command=partial(self.addOpponent, "ogre"))
+        # opponents.add_command(label="Giant", command=partial(self.addOpponent, "giant"))
         file.add_cascade(label="Add Opponent", menu=opponents)
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
-    
+
     def addPlayerImage(self, characterName):
         imagePath = "images/" + characterName + ".jpg"
         if os.path.exists(imagePath):
             character = Image.open(imagePath)
         else:
-            character = Image.open("images/default.jpg")
-        
+            character = Image.open("images/fighter.jpg")
+
         character.thumbnail(maxSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(character)
-        
-        img = Label(self, image=render)
+
+        img = Label(self, image=render, bg="blue")
         img.image = render
-        img.place(x=0, y=0)
+        xCoord = ((256 - character.size[0]) / 2)
+        yCoord = ((256 - character.size[1]) / 2)
+        img.place(x=xCoord, y=yCoord)
         pass
-    
+
     def addOpponentImage(self, opponentName):
         imagePath = "images/" + opponentName + ".jpg"
         if os.path.exists(imagePath):
             opponent = Image.open(imagePath)
         else:
-            opponent = Image.open("images/default.jpg")
-        
+            opponent = Image.open("images/goblin.jpg")
+
         opponent.thumbnail(maxSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(opponent)
-        
-        img = Label(self, image=render)
+
+        img = Label(self, image=render, bg="red")
         img.image = render
-        img.place(x=(1024 - opponent.size[0]), y=0)
+        xCoord = ((256 - opponent.size[0]) / 2)
+        yCoord = ((256 - opponent.size[1]) / 2)
+        img.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
         pass
-    
+
     def showText(self):
         text = Label(self, text="Character Battle Arena")
         text.pack()
-    
+
     def clientExit(self):
         exit()
-        
+
     def createNewPlayer(self):
         secondWindow = Toplevel(root)
-        CharacterWindow(secondWindow)
-    
-    def addPlayer(self, characterName="fighter"):
-        self.addPlayerImage(characterName)
-        
-        nameLabel = Label(self, text="First Name").grid(row=1)
-        nameValue = Label(self, text="Fighter").grid(row=1, column=1)
-        
-        classNameLabel = Label(self, text="Last Name").grid(row=2)
-        classNameValue = Label(self, text="Fighter").grid(row=2, column=1)
-        
-        strengthLabel = Label(self, text="Strength").grid(row=3)
-        strengthValue = Label(self, text="5").grid(row=3, column=1)
-        
-        quicknessLabel = Label(self, text="Quickness").grid(row=4)
-        quicknessValue = Label(self, text="5").grid(row=4, column=1)
-        
-        healthLabel = Label(self, text="Health").grid(row=5)
-        healthValue = Label(self, text="30").grid(row=5, column=1)
-        
-        armorLabel = Label(self, text="Armor").grid(row=6)
-        armorValue = Label(self, text="16").grid(row=6, column=1)
-    
-    def addOpponent(self, opponentName="goblin"):
-        nameLabel = Label(self, text="First Name").grid(row=0)
-        nameValue = Label(self, text="Goblin").grid(row=0, column=1)
-        
-        classNameLabel = Label(self, text="Last Name").grid(row=1)
-        classNameValue = Label(self, text="Warrior").grid(row=1, column=1)
-        
-        strengthLabel = Label(self, text="Strength").grid(row=2)
-        strengthValue = Label(self, text="5").grid(row=2, column=1)
-        
-        quicknessLabel = Label(self, text="Quickness").grid(row=3)
-        quicknessValue = Label(self, text="5").grid(row=3, column=1)
-        
-        healthLabel = Label(self, text="Health").grid(row=4)
-        healthValue = Label(self, text="30").grid(row=4, column=1)
-        
-        armorLabel = Label(self, text="Armor").grid(row=5)
-        armorValue = Label(self, text="14").grid(row=5, column=1)
-        
-        self.addOpponentImage(opponentName)
+        CharacterWindow(self, secondWindow)
 
+    def addPlayer(self, character):
+        self.addPlayerImage(character.characterName)
 
-root = Tk()
+        x1 = 0
+        x2 = 125
+        startingY = 266
 
-root.geometry("1024x768")
+        nameLabel = Label(self, text="Character Name").place(x=x1, y=startingY)
+        nameValue = Label(self, text=character.characterName).place(x=x2, y=startingY)
+        startingY += 20
+
+        classNameLabel = Label(self, text="Character Class").place(x=x1, y=startingY)
+        classNameValue = Label(self, text=character.characterClass).place(x=x2, y=startingY)
+        startingY += 20
+
+        strengthLabel = Label(self, text="Strength").place(x=x1, y=startingY)
+        strengthValue = Label(self, text=character.strength).place(x=x2, y=startingY)
+        startingY += 20
+
+        quicknessLabel = Label(self, text="Quickness").place(x=x1, y=startingY)
+        quicknessValue = Label(self, text=character.quickness).place(x=x2, y=startingY)
+        startingY += 20
+
+        healthLabel = Label(self, text="Health").place(x=x1, y=startingY)
+        healthValue = Label(self, text=character.health).place(x=x2, y=startingY)
+        startingY += 20
+
+        armorLabel = Label(self, text="Armor").place(x=x1, y=startingY)
+        armorValue = Label(self, text=character.armor).place(x=x2, y=startingY)
+        startingY += 20
+
+    def addOpponent(self, opponent):
+        self.addOpponentImage(opponent.characterName)
+
+        x1 = 768
+        x2 = 896
+        startingY = 266
+
+        nameLabel = Label(self, text="Name").place(x=x1, y=startingY)
+        nameValue = Label(self, text=opponent.characterName).place(x=x2, y=startingY)
+        startingY += 20
+
+        classNameLabel = Label(self, text="Class").place(x=x1, y=startingY)
+        classNameValue = Label(self, text=opponent.characterClass).place(x=x2, y=startingY)
+        startingY += 20
+
+        strengthLabel = Label(self, text="Strength").place(x=x1, y=startingY)
+        strengthValue = Label(self, text=opponent.strength).place(x=x2, y=startingY)
+        startingY += 20
+
+        quicknessLabel = Label(self, text="Quickness").place(x=x1, y=startingY)
+        quicknessValue = Label(self, text=opponent.quickness).place(x=x2, y=startingY)
+        startingY += 20
+
+        healthLabel = Label(self, text="Health").place(x=x1, y=startingY)
+        healthValue = Label(self, text=opponent.health).place(x=x2, y=startingY)
+        startingY += 20
+
+        armorLabel = Label(self, text="Armor").place(x=x1, y=startingY)
+        armorValue = Label(self, text=opponent.armor).place(x=x2, y=startingY)
+        startingY += 20
+
 
 app = Window(root)
 root.mainloop()
