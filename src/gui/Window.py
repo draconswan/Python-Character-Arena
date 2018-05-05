@@ -5,7 +5,7 @@ import os
 from tkinter import *
 from functools import partial
 from PIL import Image, ImageTk
-from CharacterWindow import CharacterWindow
+from gui.CharacterWindow import CharacterWindow
 
 maxSize = 256, 256
 
@@ -82,25 +82,25 @@ class Window(Frame):
         CharacterWindow(secondWindow)
     
     def addPlayer(self, characterName="fighter"):
-        nameLabel = Label(self, text="First Name").grid(row=0)
-        nameValue = Label(self, text="Fighter").grid(row=0, column=1)
-        
-        classNameLabel = Label(self, text="Last Name").grid(row=1)
-        classNameValue = Label(self, text="Fighter").grid(row=1, column=1)
-        
-        strengthLabel = Label(self, text="Strength").grid(row=2)
-        strengthValue = Label(self, text="5").grid(row=2, column=1)
-        
-        quicknessLabel = Label(self, text="Quickness").grid(row=3)
-        quicknessValue = Label(self, text="5").grid(row=3, column=1)
-        
-        healthLabel = Label(self, text="Health").grid(row=4)
-        healthValue = Label(self, text="30").grid(row=4, column=1)
-        
-        armorLabel = Label(self, text="Armor").grid(row=5)
-        armorValue = Label(self, text="16").grid(row=5, column=1)
-        
         self.addPlayerImage(characterName)
+        
+        nameLabel = Label(self, text="First Name").grid(row=1)
+        nameValue = Label(self, text="Fighter").grid(row=1, column=1)
+        
+        classNameLabel = Label(self, text="Last Name").grid(row=2)
+        classNameValue = Label(self, text="Fighter").grid(row=2, column=1)
+        
+        strengthLabel = Label(self, text="Strength").grid(row=3)
+        strengthValue = Label(self, text="5").grid(row=3, column=1)
+        
+        quicknessLabel = Label(self, text="Quickness").grid(row=4)
+        quicknessValue = Label(self, text="5").grid(row=4, column=1)
+        
+        healthLabel = Label(self, text="Health").grid(row=5)
+        healthValue = Label(self, text="30").grid(row=5, column=1)
+        
+        armorLabel = Label(self, text="Armor").grid(row=6)
+        armorValue = Label(self, text="16").grid(row=6, column=1)
     
     def addOpponent(self, opponentName="goblin"):
         nameLabel = Label(self, text="First Name").grid(row=0)
