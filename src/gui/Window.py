@@ -111,24 +111,21 @@ class Window(Frame):
     def buildMenu(self):
         menu = Menu(self.master)
         self.master.config(menu=menu)
-
         file = Menu(menu, tearoff=0)
         players = Menu(file, tearoff=0)
         players.add_command(label="Create New", command=self.createNewPlayer)
+        players.add_separator()
         for key in self.characters:
             players.add_command(label=key, command=partial(self.addPlayer, self.characters[key]))
         file.add_cascade(label="Add Player", menu=players)
         opponents = Menu(file, tearoff=0)
         for key in self.opponents:
             opponents.add_command(label=key, command=partial(self.addOpponent, self.opponents[key]))
-        # opponents.add_command(label="Ogre", command=partial(self.addOpponent, "ogre"))
-        # opponents.add_command(label="Giant", command=partial(self.addOpponent, "giant"))
         file.add_cascade(label="Add Opponent", menu=opponents)
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
 
     def addPlayerImage(self, imageLoc):
-        # imagePath = "images/" + characterName + ".jpg"
         if os.path.exists(imageLoc):
             character = Image.open(imageLoc)
         else:
@@ -145,7 +142,6 @@ class Window(Frame):
         self.imageLabelPlayer.place(x=xCoord, y=yCoord)
 
     def addOpponentImage(self, imageLoc):
-        # imagePath = "images/" + opponentName + ".jpg"
         if os.path.exists(imageLoc):
             opponent = Image.open(imageLoc)
         else:
