@@ -13,28 +13,30 @@ import csv
 def main():
     opponents = {}
     players = {}
-    #Need to make this a loop around whole game
+    # Need to make this a loop around whole game
     with open('opponents.csv', 'r') as opponentsFile:
-        opponentList = csv.reader(opponentsFile, delimiter = ",")
-        
+        opponentList = csv.reader(opponentsFile, delimiter=",")
+
         for row in opponentList:
-            opponent = Character(row[0], row[1], row[2], row[3], row[4], row[5])
+            opponent = Character(row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5]), row[6])
             opponents[row[1]] = opponent
 
     with open('players.csv', 'r') as playersFile:
-        playersList = csv.reader(playersFile, delimiter = ",")
+        playersList = csv.reader(playersFile, delimiter=",")
         for row in playersList:
-            player = Character(row[0], row[1], row[2], row[3], row[4], row[5])
+            player = Character(row[0], row[1], int(row[2]), int(row[3]), int(row[4]), int(row[5]), row[6])
             players[row[1]] = player
-    
+
     opponentsFile.close()
     playersFile.close()
     root = Tk()
 
     root.geometry("1024x768")
 
-    app = Window(players, opponents, root)
+    Window(players, opponents, root)
     root.mainloop()
+
+
 '''
     gameInput = input("Would you like to start a new game? (Y/N): ")
     if gameInput.lower() in ("y", "yes"):
@@ -43,29 +45,28 @@ def main():
         print("Terminated normally")
     else:
         print("Please input Y or N")
- '''   
+ '''
 
-        
+
 def buildArena():
-    #ask player to select a character
-        #ask player to select weapon
-    playerOne = Character("Character","Fighter", 5, 5, 18, 20)
-    
-    #ask player to select an opponent
+    # ask player to select a character
+    # ask player to select weapon
+    playerOne = Character("Character", "Fighter", 5, 5, 18, 20)
+
+    # ask player to select an opponent
     playerTwo = Character("Opponent", "Fighter", 5, 5, 5, 100)
 
-    #Start Battle
+    # Start Battle
     newBattle = Arena()
     newBattle.setPlayer(playerOne)
     newBattle.setOpponent(playerTwo)
     newBattle.startBattle()
     newBattle.getBattleStatus()
-    
-    
+
 
 def endGame():
-    #display game summary; loop to new game choice
+    # display game summary; loop to new game choice
     pass
 
+
 main()
-    

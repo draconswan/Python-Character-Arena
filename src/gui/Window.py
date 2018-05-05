@@ -2,13 +2,16 @@
 
 """
 import os
+import time
 from functools import partial
 from tkinter import *
+from tkinter import messagebox
 
 from PIL import Image, ImageTk
 
 from classes.Arena import Arena
 from gui.CharacterWindow import CharacterWindow
+from classes.BattleMessage import BattleMessage
 
 maxImageSize = 256, 256
 
@@ -18,6 +21,7 @@ class Window(Frame):
     def __init__(self, characters, opponents, master=None):
         Frame.__init__(self, master)
         # Setting up player section
+        self.imageLabelPlayer = Label(self)
         self.armorLabelPlayer = Label(self, text="Armor")
         self.armorValuePlayer = Label(self, text="")
         self.healthLabelPlayer = Label(self, text="Health")
@@ -32,6 +36,7 @@ class Window(Frame):
         self.nameValuePlayer = Label(self, text="")
 
         # Setting up Opponent Section
+        self.imageLabelOpponent = Label(self)
         self.armorLabelOpponent = Label(self, text="Armor")
         self.armorValueOpponent = Label(self, text="")
         self.healthLabelOpponent = Label(self, text="Health")
@@ -44,6 +49,9 @@ class Window(Frame):
         self.classNameValueOpponent = Label(self, text="")
         self.nameLabelOpponent = Label(self, text="Name")
         self.nameValueOpponent = Label(self, text="")
+
+        # Battle Window
+        self.battleStatusMessages = []
 
         self.master = master
         self.characters = characters
@@ -62,6 +70,8 @@ class Window(Frame):
         x4 = 896
         startingY = 266
 
+        self.imageLabelPlayer.place(x=0, y=0)
+        self.imageLabelOpponent.place(x=0, y=0)
         self.nameLabelPlayer.place(x=x1, y=startingY)
         self.nameValuePlayer.place(x=x2, y=startingY)
         self.nameLabelOpponent.place(x=x3, y=startingY)
@@ -127,12 +137,12 @@ class Window(Frame):
         character.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(character)
 
-        img = Label(self, image=render, bg="blue")
-        img.image = render
+        self.imageLabelPlayer['image'] = render
+        self.imageLabelPlayer['bg'] = "blue"
+        self.imageLabelPlayer.image = render
         xCoord = ((256 - character.size[0]) / 2)
         yCoord = ((256 - character.size[1]) / 2)
-        img.place(x=xCoord, y=yCoord)
-        pass
+        self.imageLabelPlayer.place(x=xCoord, y=yCoord)
 
     def addOpponentImage(self, imageLoc):
         # imagePath = "images/" + opponentName + ".jpg"
@@ -144,23 +154,45 @@ class Window(Frame):
         opponent.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(opponent)
 
-        img = Label(self, image=render, bg="red")
-        img.image = render
+        self.imageLabelOpponent['image'] = render
+        self.imageLabelOpponent['bg'] = "red"
+        self.imageLabelOpponent.image = render
         xCoord = ((256 - opponent.size[0]) / 2)
         yCoord = ((256 - opponent.size[1]) / 2)
-        img.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
-        pass
+        self.imageLabelOpponent.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
 
     def setBattleSection(self):
         Label(self, text="Character Battle Arena").pack()
         Button(self, text="Start Battle", command=self.startBattle).pack()
 
+    def displayBattleStatusMessages(self, messages):
+        for message in messages:
+            battleMessagesLabel = Label(self, text=message.message, fg=message.messageColor)
+            self.battleStatusMessages.append(battleMessagesLabel)
+            battleMessagesLabel.pack()
+
+    def clearMessages(self):
+        for message in self.battleStatusMessages:
+            message.destroy()
+
     def clientExit(self):
         exit()
 
     def startBattle(self):
-        if self.arena.isReady:
-            pass
+        if self.arena.isReady():
+            self.clearMessages()
+            self.arena.resetBattle()
+            self.displayBattleStatusMessages([self.arena.getBattleStatus()])
+            while True:
+                battleResult = self.arena.battleRound()
+                self.displayBattleStatusMessages(battleResult[1])
+                self.update()
+                if battleResult[0]:
+                    break
+                else:
+                    self.displayBattleStatusMessages(
+                        [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
+                    time.sleep(1)
         else:
             messagebox.showinfo("Warning",
                                 "Please make sure there are 2 participants in the arena before starting the battle")
@@ -177,6 +209,14 @@ class Window(Frame):
         self.quicknessValuePlayer['text'] = character.quickness
         self.healthValuePlayer['text'] = character.health
         self.armorValuePlayer['text'] = character.armor
+        self.arena.setPlayer(character)
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
+        self.nameValueOpponent['text'] = opponent.characterName
+        self.classNameValueOpponent['text'] = opponent.characterClass
+        self.strengthValueOpponent['text'] = opponent.strength
+        self.quicknessValueOpponent['text'] = opponent.quickness
+        self.healthValueOpponent['text'] = opponent.health
+        self.armorValueOpponent['text'] = opponent.armor
+        self.arena.setOpponent(opponent)

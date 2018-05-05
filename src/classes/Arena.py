@@ -5,6 +5,8 @@ Created on 4/12/18
 @email:    ds235410@my.stchas.edu
 """
 
+from classes.BattleMessage import BattleMessage
+
 
 class Arena:
 
@@ -12,11 +14,11 @@ class Arena:
         self.player = None
         self.opponent = None
         self.currentRound = 0
-        self.maxRounds = 4
+        self.maxRounds = 5
 
     def __str__(self):
-        print("This is the Arena String")
-        return "Player: %s\nOpponent: %s" % (self.player, self.opponent)
+        return "Player: %s\nOpponent: %s\nCurrent Round:%d\nMax Rounds:%d" % (
+            self.player, self.opponent, self.currentRound, self.maxRounds)
 
     def setPlayer(self, player):
         self.player = player
@@ -29,7 +31,6 @@ class Arena:
             print("Round %d, Fight!" % index)
             self.currentRound = index
             attackResults = self.battleRound()
-            print(attackResults[1])
             battleOver = attackResults[0]
             if battleOver:
                 # If one is defeated, next steps
@@ -39,44 +40,50 @@ class Arena:
     def isReady(self):
         return ((self.player is not None) and (self.opponent is not None))
 
+    def resetBattle(self):
+        self.player.wounds = 0
+        self.opponent.wounds = 0
+        self.currentRound = 0
+
     def getBattleStatus(self):
-        print("Current Round: %d, Player HP: %d, Opponent HP: %d" % (
-            self.currentRound, self.player.getCurrentHP(), self.opponent.getCurrentHP()))
+        return BattleMessage("Current Round: %d, Player HP: %d, Opponent HP: %d" % (
+            self.currentRound, self.player.getCurrentHP(), self.opponent.getCurrentHP()), "green")
 
     def battleRound(self):
-        attackResultOne = self.makeAttack(self.player, self.opponent)
+        self.currentRound += 1
+        if self.currentRound > self.maxRounds:
+            return (True, [BattleMessage("Battle is over!", "purple")])
+        attackResultOne = self.makeAttack(self.player, self.opponent, "blue", "red")
         battleOver = attackResultOne[0]
         msgPrintList = []
         if not battleOver:
             print("Round is not over after player hits; opponent's turn - take out")
-            attackResultTwo = self.makeAttack(self.opponent, self.player)
-            msgPrintList.append(attackResultOne[1])
-            msgPrintList.append(attackResultTwo[1])
+            attackResultTwo = self.makeAttack(self.opponent, self.player, "red", "blue")
+            msgPrintList += attackResultOne[1]
+            msgPrintList += attackResultTwo[1]
             return (attackResultTwo[0], msgPrintList)
         else:
             print("Round IS over - player killed opponent - take out")
             return attackResultOne
 
-    def makeAttack(self, attacker, defender):
+    def makeAttack(self, attacker, defender, attackerColor, defenderColor):
         attackRoll = attacker.attackRoll()
         msgList = []
         if attackRoll >= defender.armor:
             attackDamage = attacker.attackDamage()
             isDead = defender.takeDamage(attackDamage)
-            attackMessage = "%s's attack hits!\n%s takes %d damage." % (
-                attacker.characterName, defender.characterName, attackDamage)
+            attackMessage = BattleMessage("%s's attack hits!" % (attacker.characterName), attackerColor)
+            damageMessage = BattleMessage("%s takes %d damage." % (defender.characterName, attackDamage), attackerColor)
             msgList.append(attackMessage)
+            msgList.append(damageMessage)
             if isDead:
-                isDeadMsg = "%s is defeated!" % (defender.characterName)
+                isDeadMsg = BattleMessage("%s is defeated!" % (defender.characterName), defenderColor)
                 msgList.append(isDeadMsg)
                 return (True, msgList)
             else:
-                isDeadMsg = "no one is dead - need to take out?"
-                msgList.append(isDeadMsg)
                 return (False, msgList)
+
         else:
-            attackMessage = "%s's attack misses" % (attacker.characterName)
-            isDeadMsg = "nothing right now - replace"
+            attackMessage = BattleMessage("%s's attack misses" % (attacker.characterName), attackerColor)
             msgList.append(attackMessage)
-            msgList.append(isDeadMsg)
             return (False, msgList)
