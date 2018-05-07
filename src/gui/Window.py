@@ -191,6 +191,8 @@ class Window(Frame):
                 else:
                     self.displayBattleStatusMessages(
                         [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
+                    self.updatePlayer(self.arena.player)
+                    self.updateOpponent(self.arena.opponent)
                     time.sleep(1)
         else:
             messagebox.showinfo("Warning",
@@ -209,6 +211,9 @@ class Window(Frame):
         self.healthValuePlayer['text'] = character.health
         self.armorValuePlayer['text'] = character.armor
         self.arena.setPlayer(character)
+        
+    def updatePlayer(self, player):
+        pass
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
@@ -219,3 +224,6 @@ class Window(Frame):
         self.healthValueOpponent['text'] = opponent.health
         self.armorValueOpponent['text'] = opponent.armor
         self.arena.setOpponent(opponent)
+
+    def updateOpponent(self, opponent):
+        pass
