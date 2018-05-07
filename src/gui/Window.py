@@ -1,5 +1,8 @@
 """
+Created on 5/2/18
 
+@author:   Daniel Swan
+@email:    ds235410@my.stchas.edu
 """
 import os
 import time
