@@ -213,6 +213,7 @@ class Window(Frame):
         self.arena.setPlayer(character)
         
     def updatePlayer(self, player):
+        self.healthValuePlayer['text'] = player.health
         pass
 
     def addOpponent(self, opponent):
@@ -226,4 +227,5 @@ class Window(Frame):
         self.arena.setOpponent(opponent)
 
     def updateOpponent(self, opponent):
+        self.healthValueOpponent['text'] = opponent.health
         pass
