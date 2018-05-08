@@ -15,6 +15,7 @@ from PIL import Image, ImageTk
 from classes.Arena import Arena
 from gui.CharacterWindow import CharacterWindow
 from classes.BattleMessage import BattleMessage
+from gui.VerticalScrollingFrame import VerticalScrollingFrame
 
 maxImageSize = 256, 256
 
@@ -55,11 +56,13 @@ class Window(Frame):
 
         # Battle Window
         self.battleStatusMessages = []
+        self.battleMessagesFrame = VerticalScrollingFrame(self,width=512, height=700)
 
         self.master = master
         self.characters = characters
         self.opponents = opponents
         self.arena = Arena()
+        self.arena.maxRounds=10
         self.init_window()
 
     def init_window(self):
@@ -163,12 +166,14 @@ class Window(Frame):
     def setBattleSection(self):
         Label(self, text="Character Battle Arena").pack()
         Button(self, text="Start Battle", command=self.startBattle).pack()
+        self.battleMessagesFrame.pack(fill=None, expand=False)
+        Frame(self.battleMessagesFrame.interior, width=500, height=1).grid()
 
     def displayBattleStatusMessages(self, messages):
         for message in messages:
-            battleMessagesLabel = Label(self, text=message.message, fg=message.messageColor)
+            battleMessagesLabel = Label(self.battleMessagesFrame.interior, text=message.message, fg=message.messageColor)
             self.battleStatusMessages.append(battleMessagesLabel)
-            battleMessagesLabel.pack()
+            battleMessagesLabel.grid()
 
     def clearMessages(self):
         for message in self.battleStatusMessages:
