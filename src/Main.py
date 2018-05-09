@@ -12,7 +12,7 @@ import csv
 def main():
     opponents = {}
     players = {}
-    # Need to make this a loop around whole game
+    
     with open('opponents.csv', 'r') as opponentsFile:
         opponentList = csv.reader(opponentsFile, delimiter=",")
         for row in opponentList:
