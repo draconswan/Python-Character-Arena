@@ -208,6 +208,7 @@ class Window(Frame):
     def createNewPlayer(self):
         secondWindow = Toplevel(self.master)
         CharacterWindow(self, secondWindow)
+        secondWindow.resizable(width=False, height=False)
 
     def addPlayer(self, character):
         self.addPlayerImage(character.imageLoc)
