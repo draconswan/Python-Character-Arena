@@ -56,13 +56,13 @@ class Window(Frame):
 
         # Battle Window
         self.battleStatusMessages = []
-        self.battleMessagesFrame = VerticalScrollingFrame(self,width=512, height=700)
+        self.battleMessagesFrame = VerticalScrollingFrame(self, width=500, height=700, bd=1, relief=SUNKEN)
 
         self.master = master
         self.characters = characters
         self.opponents = opponents
         self.arena = Arena()
-        self.arena.maxRounds=10
+        self.arena.maxRounds = 10
         self.init_window()
 
     def init_window(self):
@@ -128,6 +128,7 @@ class Window(Frame):
         for key in self.opponents:
             opponents.add_command(label=key, command=partial(self.addOpponent, self.opponents[key]))
         file.add_cascade(label="Add Opponent", menu=opponents)
+        file.add_separator()
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
 
@@ -166,12 +167,13 @@ class Window(Frame):
     def setBattleSection(self):
         Label(self, text="Character Battle Arena").pack()
         Button(self, text="Start Battle", command=self.startBattle).pack()
-        self.battleMessagesFrame.pack(fill=None, expand=False)
+        self.battleMessagesFrame.pack(fill=None, expand=False, pady=(5, 0))
         Frame(self.battleMessagesFrame.interior, width=500, height=1).grid()
 
     def displayBattleStatusMessages(self, messages):
         for message in messages:
-            battleMessagesLabel = Label(self.battleMessagesFrame.interior, text=message.message, fg=message.messageColor)
+            battleMessagesLabel = Label(self.battleMessagesFrame.interior, text=message.message,
+                                        fg=message.messageColor)
             self.battleStatusMessages.append(battleMessagesLabel)
             battleMessagesLabel.grid()
 
@@ -216,10 +218,9 @@ class Window(Frame):
         self.healthValuePlayer['text'] = character.health
         self.armorValuePlayer['text'] = character.armor
         self.arena.setPlayer(character)
-        
+
     def updatePlayer(self, player):
-        self.healthValuePlayer['text'] = player.health
-        pass
+        self.healthValuePlayer['text'] = player.getCurrentHP()
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
@@ -232,5 +233,4 @@ class Window(Frame):
         self.arena.setOpponent(opponent)
 
     def updateOpponent(self, opponent):
-        self.healthValueOpponent['text'] = opponent.health
-        pass
+        self.healthValueOpponent['text'] = opponent.getCurrentHP()
