@@ -188,6 +188,8 @@ class Window(Frame):
         if self.arena.isReady():
             self.clearMessages()
             self.arena.resetBattle()
+            self.updatePlayer(self.arena.player)
+            self.updateOpponent(self.arena.opponent)
             self.displayBattleStatusMessages([self.arena.getBattleStatus()])
             while True:
                 battleResult = self.arena.battleRound()
