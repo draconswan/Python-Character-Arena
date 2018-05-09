@@ -56,7 +56,7 @@ class Window(Frame):
 
         # Battle Window
         self.battleStatusMessages = []
-        self.battleMessagesFrame = VerticalScrollingFrame(self, width=500, height=700, bd=1, relief=SUNKEN)
+        self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=700, bd=1, relief=SUNKEN)
 
         self.master = master
         self.characters = characters
@@ -114,6 +114,12 @@ class Window(Frame):
         self.armorValueOpponent.place(x=x4, y=startingY)
         startingY += 20
 
+    def setBattleSection(self):
+        Label(self, text="Character Battle Arena").pack()
+        Button(self, text="Start Battle", command=self.startBattle).pack()
+        self.battleMessagesFrame.pack(fill=None, expand=False, pady=(5, 0))
+        Frame(self.battleMessagesFrame.interior, width=468, height=1).grid()
+
     def buildMenu(self):
         menu = Menu(self.master)
         self.master.config(menu=menu)
@@ -163,12 +169,6 @@ class Window(Frame):
         xCoord = ((256 - opponent.size[0]) / 2)
         yCoord = ((256 - opponent.size[1]) / 2)
         self.imageLabelOpponent.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
-
-    def setBattleSection(self):
-        Label(self, text="Character Battle Arena").pack()
-        Button(self, text="Start Battle", command=self.startBattle).pack()
-        self.battleMessagesFrame.pack(fill=None, expand=False, pady=(5, 0))
-        Frame(self.battleMessagesFrame.interior, width=500, height=1).grid()
 
     def displayBattleStatusMessages(self, messages):
         for message in messages:
