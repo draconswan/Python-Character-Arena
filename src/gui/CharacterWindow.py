@@ -4,7 +4,6 @@ Created on 5/2/18
 @author:   Daniel Swan
 @email:    ds235410@my.stchas.edu
 """
-import atexit
 from functools import *
 from tkinter import *
 from classes.Character import Character
@@ -31,7 +30,7 @@ class CharacterWindow(Frame):
 
         Label(self, text="Character Class").grid(row=1)
         self.className = StringVar(self)
-        classList = ["Fighter", "Knight", "Mage", "Rogue"]
+        classList = ["Fighter", "Brawler", "Mage", "Rogue", "Cleric"]
         self.className.set(classList[0])
         self.classNameOption = OptionMenu(self, self.className, *classList)
         self.classNameOption.grid(row=1, column=1)

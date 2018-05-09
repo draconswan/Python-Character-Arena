@@ -16,7 +16,7 @@ class Arena:
     def __init__(self):
         self.player = None
         self.opponent = None
-        self.currentRound = 0
+        self.currentRound = 1
         self.maxRounds = 5
 
     # returns the current state of the Arena instance
@@ -39,7 +39,7 @@ class Arena:
     def resetBattle(self):
         self.player.wounds = 0
         self.opponent.wounds = 0
-        self.currentRound = 0
+        self.currentRound = 1
 
     def getBattleStatus(self):
         return BattleMessage("Current Round: %d, Player HP: %d, Opponent HP: %d" % (

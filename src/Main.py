@@ -3,10 +3,9 @@ Created on Apr 29, 2018
 
 @author: Erin
 '''
-from classes.Arena import Arena
 from classes.Character import Character
 from gui.Window import Window
-from tkinter import *
+from tkinter import Tk
 import csv
 
 
