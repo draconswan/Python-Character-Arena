@@ -9,34 +9,30 @@ from classes.BattleMessage import BattleMessage
 
 
 class Arena:
-
+    
+    # Each instance of Arena has a player instance of Character, an opponent instance of Character,
+    # a current round the battle between the characters is on (global variable initialized to 0)
+    # and a static maximum number of rounds (global variable initialized to 5)
     def __init__(self):
         self.player = None
         self.opponent = None
         self.currentRound = 0
         self.maxRounds = 5
 
+    # returns the current state of the Arena instance
     def __str__(self):
         return "Player: %s\nOpponent: %s\nCurrent Round:%d\nMax Rounds:%d" % (
             self.player, self.opponent, self.currentRound, self.maxRounds)
 
+    # sets the player to the passed-in Character instance of the created or chosen player
     def setPlayer(self, player):
         self.player = player
 
+    # sets the opponent to the passed-in Character instance of the chosen opponent
     def setOpponent(self, opponent):
         self.opponent = opponent
 
-    def startBattle(self):
-        for index in range(1, self.maxRounds + 1):
-            print("Round %d, Fight!" % index)
-            self.currentRound = index
-            attackResults = self.battleRound()
-            battleOver = attackResults[0]
-            if battleOver:
-                # If one is defeated, next steps
-                battleList = [index, attackResults[1]]
-                return battleList
-
+    # 
     def isReady(self):
         return ((self.player is not None) and (self.opponent is not None))
 
