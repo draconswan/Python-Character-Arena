@@ -194,6 +194,8 @@ class Window(Frame):
                 self.displayBattleStatusMessages(battleResult[1])
                 self.update()
                 if battleResult[0]:
+                    self.updatePlayer(self.arena.player)
+                    self.updateOpponent(self.arena.opponent)
                     break
                 else:
                     self.displayBattleStatusMessages(
@@ -221,7 +223,7 @@ class Window(Frame):
         self.arena.setPlayer(character)
 
     def updatePlayer(self, player):
-        self.healthValuePlayer['text'] = player.getCurrentHP()
+        self.healthValuePlayer['text'] = "%d/%d" % (player.getCurrentHP(), player.health)
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
@@ -234,4 +236,4 @@ class Window(Frame):
         self.arena.setOpponent(opponent)
 
     def updateOpponent(self, opponent):
-        self.healthValueOpponent['text'] = opponent.getCurrentHP()
+        self.healthValueOpponent['text'] = "%d/%d" % (opponent.getCurrentHP(), opponent.health)
