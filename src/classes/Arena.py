@@ -2,14 +2,14 @@
 Created on 4/12/18
 
 @author:   Daniel Swan & Erin Swan
-@email:    ds235410@my.stchas.edu
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 
 from classes.BattleMessage import BattleMessage
 
 
 class Arena:
-    
+
     # Each instance of Arena has a player instance of Character, an opponent instance of Character,
     # a current round the battle between the characters is on (global variable initialized to 0)
     # and a static maximum number of rounds (global variable initialized to 5)
@@ -60,14 +60,12 @@ class Arena:
         battleOver = attackResultOne[0]
         msgPrintList = []
         if not battleOver:
-            print("Round is not over after player hits; opponent's turn - take out")
             attackResultTwo = self.makeAttack(self.opponent, self.player, "red", "blue")
             msgPrintList += attackResultOne[1]
             msgPrintList += attackResultTwo[1]
             self.currentRound += 1
             return (attackResultTwo[0], msgPrintList)
         else:
-            print("Round IS over - player killed opponent - take out")
             self.currentRound += 1
             return attackResultOne
 

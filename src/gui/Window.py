@@ -1,8 +1,8 @@
 """
 Created on 5/2/18
 
-@author:   Daniel Swan
-@email:    ds235410@my.stchas.edu
+@author:   Daniel Swan & Erin Swan
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 import os
 import time
@@ -56,7 +56,7 @@ class Window(Frame):
 
         # Battle Window
         self.battleStatusMessages = []
-        self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=700, bd=1, relief=SUNKEN)
+        self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=512, bd=1, relief=SUNKEN)
 
         self.master = master
         self.characters = characters

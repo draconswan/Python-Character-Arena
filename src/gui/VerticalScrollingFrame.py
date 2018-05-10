@@ -2,7 +2,6 @@
 
 used from: # http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 """
-
 from tkinter import *
 from gui.AutoScrollbar import AutoScrollbar
 
@@ -20,7 +19,7 @@ class VerticalScrollingFrame(Frame):
         # create a canvas object and a vertical scrollbar for scrolling it
         vscrollbar = AutoScrollbar(self, orient=VERTICAL)
         vscrollbar.pack()
-        canvas = Canvas(self, yscrollcommand=vscrollbar.set, width=488, height=700)
+        canvas = Canvas(self, yscrollcommand=vscrollbar.set, width=488, height=512)
         canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
         canvas.config(yscrollcommand=vscrollbar.set)
         vscrollbar.config(command=canvas.yview)

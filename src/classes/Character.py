@@ -1,8 +1,8 @@
 """
 Created on Apr 11, 2018
 
-@author:   Daniel.Swan
-@email:    ds235410@my.stchas.edu
+@author:   Daniel Swan & Erin Swan
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 from random import randint
 
@@ -35,20 +35,17 @@ class Character:
     # Calculates the current HP (Health Points) a character has by subtracting the amount of damage (wounds) from their HP. Return result
     def getCurrentHP(self):
         currentHP = self.health - self.wounds
-        print("    This is %s's current HP: %d" % (self.characterName, currentHP))
         return currentHP
     
     # Calculates an attack roll (roll 1d20, add quickness of attacker) if attackRoll is greater than the defender's
     # armor stat, the defender will take damage. Return result
     def attackRoll(self):
         attackRoll = randint(1, 21) + self.quickness
-        print("    This is %s's current attackRoll: %d" % (self.characterName, attackRoll))
         return attackRoll
     
     # Calculates the amount of damage to be dealt to the defender (roll 1d8 damage dice, add strength of attacker). Return result
     def attackDamage(self):
         damage = randint(1, 9) + self.strength
-        print("    This is the damage of %s's attack: %d" % (self.characterName, damage))
         return damage
     
     # Adds damage from attacker to the previous damage (wounds) the defender has taken 
@@ -58,7 +55,5 @@ class Character:
         self.wounds += attackDamage
         if self.getCurrentHP() <= 0:
             return True
-            
         else:
             return False
-        
