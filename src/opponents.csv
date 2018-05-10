@@ -1,4 +1,4 @@
-Sturtasee,Giant,10,7,13,100,gui/images/giant.png
+Sturtasee,Giant,12,6,14,200,gui/images/giant.png
 Rut,Ogre,9,8,14,80,gui/images/ogre.png
-Odnul,Wyvern,8,9,15,45,gui/images/wyvern.jpg
-Klort,Goblin,7,10,16,20,gui/images/goblin.jpg
+Odnul,Wyvern,8,12,15,50,gui/images/wyvern.jpg
+Klort,Goblin,6,8,16,40,gui/images/goblin.jpg

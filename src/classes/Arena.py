@@ -80,7 +80,7 @@ class Arena:
         if attackRoll >= defender.armor:
             attackDamage = attacker.attackDamage()
             isDead = defender.takeDamage(attackDamage)
-            attackMessage = BattleMessage("%s's attack hits!" % (attacker.characterName), attackerColor)
+            attackMessage = BattleMessage("%s's attack hits! (%d)" % (attacker.characterName, attackRoll), attackerColor)
             damageMessage = BattleMessage("%s takes %d damage." % (defender.characterName, attackDamage), attackerColor)
             msgList.append(attackMessage)
             msgList.append(damageMessage)
@@ -92,6 +92,6 @@ class Arena:
                 return (False, msgList)
 
         else:
-            attackMessage = BattleMessage("%s's attack misses" % (attacker.characterName), attackerColor)
+            attackMessage = BattleMessage("%s's attack misses (%d)" % (attacker.characterName, attackRoll), attackerColor)
             msgList.append(attackMessage)
             return (False, msgList)

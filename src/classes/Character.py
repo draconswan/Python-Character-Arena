@@ -40,12 +40,14 @@ class Character:
     # Calculates an attack roll (roll 1d20, add quickness of attacker) if attackRoll is greater than the defender's
     # armor stat, the defender will take damage. Return result
     def attackRoll(self):
-        attackRoll = randint(1, 21) + self.quickness
+        # randint(a,b), unlike other random functions, is inclusive at both ends...
+        attackRoll = randint(1, 20) + self.quickness
         return attackRoll
     
     # Calculates the amount of damage to be dealt to the defender (roll 1d8 damage dice, add strength of attacker). Return result
     def attackDamage(self):
-        damage = randint(1, 9) + self.strength
+        # randint(a,b), unlike other random functions, is inclusive at both ends...
+        damage = randint(1, 8) + self.strength
         return damage
     
     # Adds damage from attacker to the previous damage (wounds) the defender has taken 

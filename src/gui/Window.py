@@ -223,9 +223,11 @@ class Window(Frame):
         self.healthValuePlayer['text'] = character.health
         self.armorValuePlayer['text'] = character.armor
         self.arena.setPlayer(character)
+        self.update()
 
     def updatePlayer(self, player):
         self.healthValuePlayer['text'] = "%d/%d" % (player.getCurrentHP(), player.health)
+        self.update()
 
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
@@ -236,6 +238,8 @@ class Window(Frame):
         self.healthValueOpponent['text'] = opponent.health
         self.armorValueOpponent['text'] = opponent.armor
         self.arena.setOpponent(opponent)
+        self.update()
 
     def updateOpponent(self, opponent):
         self.healthValueOpponent['text'] = "%d/%d" % (opponent.getCurrentHP(), opponent.health)
+        self.update()
