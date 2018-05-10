@@ -21,10 +21,12 @@ maxImageSize = 256, 256
 
 
 class Window(Frame):
-
+    # Each instance of Window imports the contents of characters and opponents csv files
+    # from the Main class and a default master container is set to None
     def __init__(self, characters, opponents, master=None):
         Frame.__init__(self, master)
-        # Setting up player section
+        # Setting up player section; these are the labels and text fields from the character csv file
+        # that are displayed below the character's picture on the window
         self.imageLabelPlayer = Label(self)
         self.armorLabelPlayer = Label(self, text="Armor")
         self.armorValuePlayer = Label(self, text="")
@@ -39,7 +41,8 @@ class Window(Frame):
         self.nameLabelPlayer = Label(self, text="Name")
         self.nameValuePlayer = Label(self, text="")
 
-        # Setting up Opponent Section
+        # Setting up Opponent Section; these are the labels and text fields from the opponent csv file
+        # that are displayed below the opponent's picture on the window
         self.imageLabelOpponent = Label(self)
         self.armorLabelOpponent = Label(self, text="Armor")
         self.armorValueOpponent = Label(self, text="")
@@ -54,10 +57,13 @@ class Window(Frame):
         self.nameLabelOpponent = Label(self, text="Name")
         self.nameValueOpponent = Label(self, text="")
 
-        # Battle Window
+        # This creates the battle window (the large middle frame), with an empty list for battle messages
+        # to be stored in to to be displayed later
         self.battleStatusMessages = []
         self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=700, bd=1, relief=SUNKEN)
 
+        # This is the parent frame that manages the window as a whole and instantiates a new copy of the Arena
+        # class. This also sets the max rounds to 10
         self.master = master
         self.characters = characters
         self.opponents = opponents
@@ -65,6 +71,7 @@ class Window(Frame):
         self.arena.maxRounds = 10
         self.init_window()
 
+    # Sets the size and placement of the master window and its accompanying labels
     def init_window(self):
         self.master.title("Character Battle Arena")
         self.pack(fill=BOTH, expand=1)
@@ -114,12 +121,16 @@ class Window(Frame):
         self.armorValueOpponent.place(x=x4, y=startingY)
         startingY += 20
 
+    # Sets the size and placement of the battle window (the large middle frame), its accompanying labels
+    # and where the battle messages will be displayed
     def setBattleSection(self):
         Label(self, text="Character Battle Arena").pack()
         Button(self, text="Start Battle", command=self.startBattle).pack()
         self.battleMessagesFrame.pack(fill=None, expand=False, pady=(5, 0))
         Frame(self.battleMessagesFrame.interior, width=468, height=1).grid()
 
+    # Creates the menu options of the master window, allowing the user to exit, create or choose a new character
+    # player and choose and opponent player for battle
     def buildMenu(self):
         menu = Menu(self.master)
         self.master.config(menu=menu)
@@ -138,6 +149,8 @@ class Window(Frame):
         file.add_command(label="Exit", command=self.clientExit)
         menu.add_cascade(label="File", menu=file)
 
+    # displays the image associated with the chosen character player, based on the associated location 
+    # provided by the csv file. If a character is created instead of chosen, a default image is set
     def addPlayerImage(self, imageLoc):
         if os.path.exists(imageLoc):
             character = Image.open(imageLoc)
@@ -146,14 +159,17 @@ class Window(Frame):
 
         character.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(character)
-
+        
+        # Sets the size, placement, and background of the rendered image
         self.imageLabelPlayer['image'] = render
         self.imageLabelPlayer['bg'] = "blue"
         self.imageLabelPlayer.image = render
         xCoord = ((256 - character.size[0]) / 2)
         yCoord = ((256 - character.size[1]) / 2)
         self.imageLabelPlayer.place(x=xCoord, y=yCoord)
-
+    
+    # displays the image associated with the chosen opponent players, based on the associated location 
+    # provided by the csv file. If an opponent is created instead of chosen, a default image is set
     def addOpponentImage(self, imageLoc):
         if os.path.exists(imageLoc):
             opponent = Image.open(imageLoc)
@@ -162,7 +178,8 @@ class Window(Frame):
 
         opponent.thumbnail(maxImageSize, Image.ANTIALIAS)
         render = ImageTk.PhotoImage(opponent)
-
+        
+        # Sets the size, placement, and background of the rendered image
         self.imageLabelOpponent['image'] = render
         self.imageLabelOpponent['bg'] = "red"
         self.imageLabelOpponent.image = render
@@ -170,6 +187,7 @@ class Window(Frame):
         yCoord = ((256 - opponent.size[1]) / 2)
         self.imageLabelOpponent.place(x=(1024 - opponent.size[0] - xCoord), y=yCoord)
 
+    # Displays each of the messages in the battle message list in the messages frame interior
     def displayBattleStatusMessages(self, messages):
         for message in messages:
             battleMessagesLabel = Label(self.battleMessagesFrame.interior, text=message.message,
@@ -177,13 +195,20 @@ class Window(Frame):
             self.battleStatusMessages.append(battleMessagesLabel)
             battleMessagesLabel.grid()
 
+    # If a user would like to start a new battle, this method clears the messages from the screen and then
+    # all of the contents of the battle status messages list
     def clearMessages(self):
         for message in self.battleStatusMessages:
             message.destroy()
+        del self.battleStatusMessages[:]
 
+    # Exits the program and closes the window
     def clientExit(self):
         exit()
 
+    # validates that the battle can start (has one player and one opponent; throws and error message if it does not),
+    # calls methods to clear any battle messages from the window, populate the arena instance 
+    # and calls battle actions while the battle is still active
     def startBattle(self):
         if self.arena.isReady():
             self.clearMessages()
@@ -209,11 +234,14 @@ class Window(Frame):
             messagebox.showinfo("Warning",
                                 "Please make sure there are 2 participants in the arena before starting the battle")
 
+    # When a player chooses to create their own character, this method controls the pop-up window that displays
+    # by displaying it on top of the master window and initializing a new character window class
     def createNewPlayer(self):
         secondWindow = Toplevel(self.master)
         CharacterWindow(self, secondWindow)
         secondWindow.resizable(width=False, height=False)
 
+    # Populates the image and all of the labels from the character class instance for the player
     def addPlayer(self, character):
         self.addPlayerImage(character.imageLoc)
         self.nameValuePlayer['text'] = character.characterName
@@ -224,9 +252,11 @@ class Window(Frame):
         self.armorValuePlayer['text'] = character.armor
         self.arena.setPlayer(character)
 
+    # updates the label of the opponent's current health as a fraction of their total starting health
     def updatePlayer(self, player):
         self.healthValuePlayer['text'] = "%d/%d" % (player.getCurrentHP(), player.health)
 
+    # Populates the image and all of the labels from the character class instance for the opponent
     def addOpponent(self, opponent):
         self.addOpponentImage(opponent.imageLoc)
         self.nameValueOpponent['text'] = opponent.characterName
@@ -237,5 +267,6 @@ class Window(Frame):
         self.armorValueOpponent['text'] = opponent.armor
         self.arena.setOpponent(opponent)
 
+    # updates the label of the opponent's current health as a fraction of their total starting health
     def updateOpponent(self, opponent):
         self.healthValueOpponent['text'] = "%d/%d" % (opponent.getCurrentHP(), opponent.health)
