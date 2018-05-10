@@ -1,8 +1,8 @@
 """
 Created on 4/12/18
 
-@author:   Daniel Swan
-@email:    ds235410@my.stchas.edu
+@author:   Daniel Swan & Erin Swan
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 
 

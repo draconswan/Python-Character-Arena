@@ -1,8 +1,9 @@
-'''
+"""
 Created on Apr 29, 2018
 
-@author: Erin
-'''
+@author:   Erin Swan & Daniel Swan
+@email:    es209931@my.stchas.edu & ds235410@my.stchas.edu
+"""
 from classes.Character import Character
 from gui.Window import Window
 from tkinter import Tk
@@ -28,7 +29,7 @@ def main():
     opponentsFile.close()
     playersFile.close()
     root = Tk()
-    root.geometry("1024x768")
+    root.geometry("1025x640")
     root.resizable(width=False, height=False)
 
     Window(players, opponents, root)

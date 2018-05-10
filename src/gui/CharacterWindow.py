@@ -1,13 +1,12 @@
 """
 Created on 5/2/18
 
-@author:   Daniel Swan
-@email:    ds235410@my.stchas.edu
+@author:   Daniel Swan & Erin Swan
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 from functools import *
 from tkinter import *
 from classes.Character import Character
-from classes.Arena import Arena
 
 
 class CharacterWindow(Frame):

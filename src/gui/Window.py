@@ -1,8 +1,8 @@
 """
 Created on 5/2/18
 
-@author:   Daniel Swan
-@email:    ds235410@my.stchas.edu
+@author:   Daniel Swan & Erin Swan
+@email:    ds235410@my.stchas.edu & es209931@my.stchas.edu
 """
 import os
 import time
@@ -60,7 +60,7 @@ class Window(Frame):
         # This creates the battle window (the large middle frame), with an empty list for battle messages
         # to be stored in to to be displayed later
         self.battleStatusMessages = []
-        self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=700, bd=1, relief=SUNKEN)
+        self.battleMessagesFrame = VerticalScrollingFrame(self, width=488, height=512, bd=1, relief=SUNKEN)
 
         # This is the parent frame that manages the window as a whole and instantiates a new copy of the Arena
         # class. This also sets the max rounds to 10
@@ -215,8 +215,9 @@ class Window(Frame):
             self.arena.resetBattle()
             self.updatePlayer(self.arena.player)
             self.updateOpponent(self.arena.opponent)
-            self.displayBattleStatusMessages([self.arena.getBattleStatus()])
             while True:
+                self.displayBattleStatusMessages(
+                    [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
                 battleResult = self.arena.battleRound()
                 self.displayBattleStatusMessages(battleResult[1])
                 self.update()
@@ -225,8 +226,6 @@ class Window(Frame):
                     self.updateOpponent(self.arena.opponent)
                     break
                 else:
-                    self.displayBattleStatusMessages(
-                        [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
                     self.updatePlayer(self.arena.player)
                     self.updateOpponent(self.arena.opponent)
                     time.sleep(1)
@@ -251,10 +250,12 @@ class Window(Frame):
         self.healthValuePlayer['text'] = character.health
         self.armorValuePlayer['text'] = character.armor
         self.arena.setPlayer(character)
+        self.update()
 
     # updates the label of the opponent's current health as a fraction of their total starting health
     def updatePlayer(self, player):
         self.healthValuePlayer['text'] = "%d/%d" % (player.getCurrentHP(), player.health)
+        self.update()
 
     # Populates the image and all of the labels from the character class instance for the opponent
     def addOpponent(self, opponent):
@@ -266,7 +267,9 @@ class Window(Frame):
         self.healthValueOpponent['text'] = opponent.health
         self.armorValueOpponent['text'] = opponent.armor
         self.arena.setOpponent(opponent)
+        self.update()
 
     # updates the label of the opponent's current health as a fraction of their total starting health
     def updateOpponent(self, opponent):
         self.healthValueOpponent['text'] = "%d/%d" % (opponent.getCurrentHP(), opponent.health)
+        self.update()
