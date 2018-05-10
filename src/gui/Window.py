@@ -190,8 +190,9 @@ class Window(Frame):
             self.arena.resetBattle()
             self.updatePlayer(self.arena.player)
             self.updateOpponent(self.arena.opponent)
-            self.displayBattleStatusMessages([self.arena.getBattleStatus()])
             while True:
+                self.displayBattleStatusMessages(
+                    [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
                 battleResult = self.arena.battleRound()
                 self.displayBattleStatusMessages(battleResult[1])
                 self.update()
@@ -200,8 +201,6 @@ class Window(Frame):
                     self.updateOpponent(self.arena.opponent)
                     break
                 else:
-                    self.displayBattleStatusMessages(
-                        [BattleMessage("Battle Status:", "green"), self.arena.getBattleStatus()])
                     self.updatePlayer(self.arena.player)
                     self.updateOpponent(self.arena.opponent)
                     time.sleep(1)
